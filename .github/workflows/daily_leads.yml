@@ -1,33 +1,27 @@
 name: GRF Daily Leads Bot
-
 on:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: "0 4 * * *"
   workflow_dispatch:
-
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   run-leads-bot:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-
+          python-version: "3.11"
       - name: Install dependencies
         run: pip install requests
-
       - name: Run daily leads bot
         env:
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          GOOGLE_CX:      ${{ secrets.GOOGLE_CX }}
-          GROQ_API_KEY:   ${{ secrets.GROQ_API_KEY }}
-          EMAIL_SENDER:   ${{ secrets.EMAIL_SENDER }}
+          GOOGLE_CX: ${{ secrets.GOOGLE_CX }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: python grf_daily_leads.py
